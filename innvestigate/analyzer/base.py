@@ -700,6 +700,13 @@ class ReverseAnalyzerBase(AnalyzerNetworkBase):
             return_all_reversed_tensors=return_all_reversed_tensors)
 
     def _create_analysis(self, model, stop_analysis_at_tensors=[]):
+        from .relevance_based.relevance_analyzer import EmbeddingReverseLayer
+        self._add_conditional_reverse_mapping(
+            kchecks.is_embedding_layer,
+            EmbeddingReverseLayer,
+            name="embedding_mapping"
+        )
+
         return_all_reversed_tensors = (
             self._reverse_check_min_max_values or
             self._reverse_check_finite or
